@@ -1,8 +1,9 @@
 # Stage 1
-FROM node:8 as react-build
+FROM node:13.8 as react-build
 WORKDIR /app
 COPY . ./
-RUN npm run build
+RUN ls
+RUN npm install && npm run build
 
 # Stage 2 - the production environment
 FROM nginx:alpine
