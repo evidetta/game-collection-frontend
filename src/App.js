@@ -4,28 +4,33 @@ import GameListing from './GameListing'
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = [
-      {
-        name: "Sonic the Hedgehog",
-        release_year: 1991
-      },
-      {
-        name: "Sonic the Hedgehog 2",
-        release_year: 1992
-      },
-      {
-        name: "Sonic the Hedgehog 3",
-        release_year: 1994
-      },
-      {
-        name: "Sonic & Knuckles",
-        release_year: 1994
-      },
-      {
-        name: "Toy Story",
-        release_year: 1995
-      }
-    ];
+
+    this.state = {
+      games: [],
+      error: null,
+      loaded: false
+    };
+  }
+
+  componentDidMount() {
+    const endpoint = process.env.REACT_APP_BACKEND_ENDPOINT
+    fetch(endpoint)
+      .then(res => res.json())
+      .then
+      (
+        result => {
+          this.setState({
+            games: result,
+            loaded: true
+          }) 
+        },
+        error => {
+          this.setState({
+            error: error.error,
+            loaded: true
+          })
+        }
+      )
   }
   render() {
     return (
@@ -37,7 +42,7 @@ class App extends React.Component {
           <div className="row">
             <div className="col"></div>
             <div className="col-8">
-              <GameListing data={this.state}></GameListing>
+              <GameListing data={this.state.games}></GameListing>
             </div>
             <div className="col"></div>
           </div>

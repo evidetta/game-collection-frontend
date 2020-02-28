@@ -2,8 +2,8 @@
 FROM node:13.8 as react-build
 WORKDIR /app
 COPY . ./
-RUN ls
-RUN npm install && npm run build
+#Ensure you run npm install outside first!
+RUN npm run build
 
 # Stage 2 - the production environment
 FROM nginx:alpine
